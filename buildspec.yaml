@@ -4,38 +4,25 @@ phases:
     on-failure: ABORT
     runtime-versions:
       php: 8.2
-    commands:
-      - echo "Installaing Php 8.2"
-      - command
     finally:
-      - echo "Now Finally prebuild command is executing  Line1"
-      - echo "Now Finally  prebuild command is executing  Line2"
-    # steps:
+      - echo "Run Time Version Set Complete"
   pre_build:
-
     on-failure: ABORT
     commands:
-      -  echo "Now Prebuil command is executing  Line1"
-
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REPOSITORY
     finally:
-      - echo "Now Finally prebuild command is executing  Line1"
-      - echo "Now Finally prebuild command is executing  Line2"
-    # steps:
+      -  echo "Logining in to ECR Completed"
   build:
-
     on-failure: ABORT
     commands:
-      -  echo "Now BUILD command is executing  Line1"
-
+      -  docker build -t $IMAGE .
+      - docker tag prod-larvel-api-baseimage:latest $REPOSITORY/$IMAGE:$IMAGE_TAG
     finally:
-      - echo "Now Finally BUILD command is executing  Line1"
-      - echo "Now Finally BUILD  command is executing  Line2"
-    # steps:
+      - echo "Building Docker Image Succeded"
   post_build:
     on-failure: ABORT
     commands:
-      -  echo "Now BUILD command is executing  Line1"
+      - docker images
+      -  docker push $REPOSITORY/$IMAGE:$IMAGE_TAG
     finally:
-      - echo "Now Finally BUILD command is executing  Line1"
-      - echo "Now Finally BUILD  command is executing  Line2"
-    # steps:
+      - echo "Pushing Docker Image Succeded"
