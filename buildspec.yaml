@@ -1,0 +1,41 @@
+version: 0.2   
+phases:
+  install:
+    on-failure: ABORT
+    runtime-versions:
+      php: 8.2
+    commands:
+      - echo "Installaing Php 8.2"
+      - command
+    finally:
+      - echo "Now Finally prebuild command is executing  Line1"
+      - echo "Now Finally  prebuild command is executing  Line2"
+    # steps:
+  pre_build:
+
+    on-failure: ABORT
+    commands:
+      -  echo "Now Prebuil command is executing  Line1"
+
+    finally:
+      - echo "Now Finally prebuild command is executing  Line1"
+      - echo "Now Finally prebuild command is executing  Line2"
+    # steps:
+  build:
+
+    on-failure: ABORT
+    commands:
+      -  echo "Now BUILD command is executing  Line1"
+
+    finally:
+      - echo "Now Finally BUILD command is executing  Line1"
+      - echo "Now Finally BUILD  command is executing  Line2"
+    # steps:
+  post_build:
+    on-failure: ABORT
+    commands:
+      -  echo "Now BUILD command is executing  Line1"
+    finally:
+      - echo "Now Finally BUILD command is executing  Line1"
+      - echo "Now Finally BUILD  command is executing  Line2"
+    # steps:
